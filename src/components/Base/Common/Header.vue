@@ -1,32 +1,36 @@
 <template>
-  <v-header :style="{ background: '#fff', padding: 0 }">
-    <v-icon class="trigger" :type="this.$store.state.menu.customCollapsed ? 'menu-unfold' : 'menu-fold'"
-            @click.native="toggle"></v-icon>
+  <a-layout-header style="background: #fff; padding: 0">
+    <a-icon class="trigger" :type="this.$store.state.menu.customCollapsed ? 'menu-unfold' : 'menu-fold'"
+            @click="toggle"/>
     <div class="user-info">
-          <span class="el-dropdown-link">
-            <v-dropdown :data="data">
-            <img class="user-logo"
-                 src="https://thirdwx.qlogo.cn/mmopen/2eGvIazZjGgCU6JOic3ox6OPrbm9mPKfvb2Eznx4Z5dp62BMYW1DnnkMiaicFarYBCVPo25DA7RVAsYV9DzgjwQmXAREO6ykoQs/132">
-
-              周先生🏅
-            </v-dropdown>
-          </span>
+      <a-dropdown>
+        <span class="el-dropdown-link">
+        <img class="user-logo"
+             src="https://thirdwx.qlogo.cn/mmopen/2eGvIazZjGgCU6JOic3ox6OPrbm9mPKfvb2Eznx4Z5dp62BMYW1DnnkMiaicFarYBCVPo25DA7RVAsYV9DzgjwQmXAREO6ykoQs/132">
+        周先生🏅
+        </span>
+        <a-menu slot="overlay" style="text-align: center">
+          <a-menu-item>
+            <a href="javascript:;">个人中心</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;">修改密码</a>
+          </a-menu-item>
+          <a-menu-item>
+            <a href="javascript:;" style="color: red">
+              <a-icon type="poweroff"/>&nbsp;退出登录</a>
+          </a-menu-item>
+        </a-menu>
+      </a-dropdown>
     </div>
-
-  </v-header>
+  </a-layout-header>
 </template>
 <script>
 
   export default {
     components: {},
     data() {
-      return {
-        data: [
-          {content: '个人中心'},
-          {content: '修改密码'},
-          {content: '退出登录'},
-        ],
-      }
+      return {}
     },
     methods: {
       toggle() {

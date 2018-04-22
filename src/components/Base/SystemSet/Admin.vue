@@ -1,100 +1,119 @@
 <template>
   <div>
-    <v-tabs active-tab-key="1">
-      <v-tab-pane tab-key="1" icon="user" tab="列表">
+    <a-tabs defaultActiveKey="1">
+      <a-tab-pane key="1">
+        <span slot="tab"><a-icon type="user"/>列表</span>
         <div style="padding-top: 20px;">
-          &nbsp;&nbsp;
-          昵称：
-          <v-input placeholder="请输入管理员昵称" style="width:200px;display:inline-block"></v-input>
+          &nbsp;&nbsp;昵称：
+          <a-input placeholder="请输入管理员昵称" style="width:200px;display:inline-block"></a-input>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           创建时间：
-          <v-date-picker range v-model="rangeDate3" format="yyyy/MM/dd"></v-date-picker>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <v-button type="primary" html-type="button" icon="search">查询</v-button>
+          <a-range-picker @change="onChange" style="width: 220px;"/>
+          <a-button type="primary" icon="search" style="margin-left: 20px;">查询</a-button>
         </div>
         <div style="padding-top: 25px;">
-          <v-data-table :data='loadData' :columns='columns' tree-table>
-            <template slot="td" slot-scope="props">
-              <div v-if="props.column.field=='operate'">
-                <v-tooltip content="编辑" :delay="1000">
-                  <v-button type="primary" shape="circle" icon="edit" style="margin-right: 10px;"
-                            size="small"></v-button>
-                </v-tooltip>
-                <v-tooltip content="设置" :delay="1000">
-                  <v-button type="dashed" shape="circle" icon="setting" style="margin-right: 10px;"
-                            size="small"></v-button>
-                </v-tooltip>
-                <v-tooltip content="删除" :delay="1000">
-                  <v-popconfirm title="确定删除吗?" placement="right">
-                    <v-button type="error" shape="circle" icon="delete" style="margin-right: 10px;"
-                              size="small"></v-button>
-                  </v-popconfirm>
-                </v-tooltip>
-              </div>
-              <span v-else v-html="props.content"></span>
+          <a-table :columns="columns"
+                   :rowKey="record => record.registered"
+                   :dataSource="tabData"
+                   :pagination="pagination"
+                   :loading="loading"
+                   @change="handleTableChange"
+          >
+            <template slot="name" slot-scope="name">
+              {{name.first}} {{name.last}}
             </template>
-          </v-data-table>
+            <span slot="operate" slot-scope="text" class="table-operation">
+              <a href="#">Pause</a>
+              <a href="#">Stop</a>
+              <a-dropdown>
+                <a-menu slot="overlay">
+                  <a-menu-item>
+                    Action 1
+                  </a-menu-item>
+                  <a-menu-item>
+                    Action 2
+                  </a-menu-item>
+                </a-menu>
+                <a href="#">
+                  More <a-icon type="down"/>
+                </a>
+              </a-dropdown>
+            </span>
+          </a-table>
         </div>
-      </v-tab-pane>
-      <v-tab-pane tab-key="2" icon="user-add" tab="新增">
-        <div style="padding-top: 50px;">
-          <v-form direction="horizontal">
-            <v-form-item label="用户名" :label-col="labelCol" :wrapper-col="wrapperCol">
-              <span class="ant-form-text" id="userName" name="userName">大眼萌 minion</span>
-            </v-form-item>
-            <v-form-item label="密码" :label-col="labelCol" :wrapper-col="wrapperCol" required>
-              <v-input type="password" placeholder="请输入密码" size="large"></v-input>
-            </v-form-item>
-            <v-form-item label="您的性别" :label-col="labelCol" :wrapper-col="wrapperCol">
-              <v-radio-group value="female"
-                             :data="[{value: 'male', text: '男的'},{value: 'female', text: '女的'}]"></v-radio-group>
-            </v-form-item>
-            <v-form-item label="备注" :label-col="labelCol" :wrapper-col="wrapperCol">
-              <v-input type="textarea" placeholder="随便写"></v-input>
-            </v-form-item>
-            <v-form-item label="卖身华府" :label-col="labelCol" :wrapper-col="wrapperCol">
-              <v-checkbox>同意</v-checkbox>
-            </v-form-item>
-            <v-form-item :wrapper-col="{span:16,offset:6}" style="margin-top:24px">
-              <v-button type="primary" html-type="submit">确定</v-button>
-            </v-form-item>
-          </v-form>
-        </div>
-      </v-tab-pane>
-    </v-tabs>
+      </a-tab-pane>
+      <a-tab-pane key="2">
+        <span slot="tab"><a-icon type="user-add"/>新增</span>
+        Tab 2
+      </a-tab-pane>
+    </a-tabs>
   </div>
 </template>
 <script>
   export default {
     components: {},
+    mounted() {
+      this.fetch();
+    },
     data() {
       let that = this;
       return {
-        options: [{value: 'id', label: '管理员id'}, {value: 'nickname', label: '管理员昵称'}],
-        rangeDate3: ['2015-12-06', '2016-12-06'],
-        loadData(pramas) {
-          return this.$http.get("https://fe-driver.github.io/vue-beauty/static/datatable.json", pramas).then(res => {
-            return res.data;
-          });
-        },
-        columns: [
-          {title: "歌名", field: 'name'},
-          {title: "时长", field: 'time'},
-          {title: "歌手", field: 'singer'},
-          {title: "专辑", field: 'album'},
-          {title: "编辑", field: 'operate'},
-        ],
-        labelCol: {
-          span: 6
-        },
-        wrapperCol: {
-          span: 14
-        }
+        tabData: [],
+        pagination: {},
+        loading: false,
+        columns: [{
+          title: 'Name',
+          dataIndex: 'name',
+          sorter: true,
+          width: '20%',
+          scopedSlots: {customRender: 'name'},
+        }, {
+          title: 'Gender',
+          dataIndex: 'gender',
+          filters: [
+            {text: 'Male', value: 'male'},
+            {text: 'Female', value: 'female'},
+          ],
+          width: '20%',
+        }, {
+          title: 'Email',
+          dataIndex: 'email',
+        }, {
+          title: '操作',
+          key: 'operate',
+          scopedSlots: {customRender: 'operate'}
+        }],
       }
     },
     methods: {
-      change(time) {
-        console.log('change:', time)
+      onChange(date, dateString) {
+        console.log(date, dateString);
+      },
+      handleTableChange(pagination, filters, sorter) {
+        console.log(pagination);
+        const pager = {...this.pagination};
+        pager.current = pagination.current;
+        this.pagination = pager;
+        this.fetch({
+          results: pagination.pageSize,
+          page: pagination.current,
+          sortField: sorter.field,
+          sortOrder: sorter.order,
+          ...filters,
+        });
+      },
+      fetch(params = {}) {
+        console.log('params:', params);
+        this.loading = true
+        this.$http.get('https://randomuser.me/api', {results: 10, ...params,}).then((data) => {
+          const pagination = {...this.pagination};
+          // Read total count from server
+          // pagination.total = data.totalCount;
+          pagination.total = 200;
+          this.loading = false;
+          this.tabData = data.data.results;
+          this.pagination = pagination;
+        });
       }
     }
   }

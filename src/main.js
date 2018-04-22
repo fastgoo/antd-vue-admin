@@ -6,12 +6,14 @@ import App from './App'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-import 'vue-beauty/package/style/vue-beauty.min.css'
-import VueBeauty from 'vue-beauty'
+import './components'
+import moment from 'moment'
+import 'moment/locale/zh-cn';
 
 Vue.config.productionTip = false;
 Vue.use(Vuex);
-Vue.use(VueBeauty);
+moment.locale('zh-cn');
+
 Vue.prototype.$http = axios
 
 new Vue({

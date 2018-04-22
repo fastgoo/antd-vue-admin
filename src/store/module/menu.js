@@ -4,32 +4,23 @@ const menu = {
     menuList: [{
       name: '首页',
       icon: 'home',
-      url: '/home',
-      selected: false,
+      key: '/home',
     }, {
       name: '系统设置',
       icon: 'setting',
-      expand: false,
+      key: 'setting',
       children: [{
         name: "管理员",
-        icon: 'user',
-        url: '/common/admin',
-        selected: false,
+        key: '/common/admin',
       }, {
         name: "菜单管理",
-        icon: 'bars',
-        expand: false,
-        selected: false,
+        key: 'menu-setting',
         children: [{
           name: "菜单列表",
-          icon: 'appstore',
-          url: '/common/menu',
-          selected: false,
+          key: '/common/menu',
         }, {
           name: "权限列表",
-          icon: 'appstore',
-          url: '/common/role',
-          selected: false,
+          key: '/common/role',
         }]
       }]
     }],

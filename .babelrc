@@ -16,6 +16,14 @@
     "stage-2"
   ],
   "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "vue-antd-ui",
+        "libraryDirectory": "es",
+        "style": "css"
+      }
+    ],
     "transform-vue-jsx",
     "transform-runtime"
   ]

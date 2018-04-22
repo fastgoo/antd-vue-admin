@@ -19,5 +19,5 @@ export default new Router({
       path: '/common/menu',
       component: CommonMenu,
     },]
-  },]
+  }]
 })
