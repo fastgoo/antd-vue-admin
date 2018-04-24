@@ -4,12 +4,15 @@ const menu = {
     menuList: [{
       name: '首页',
       icon: 'home',
-      key: '/home',
+      key: '/',
     }, {
       name: '系统设置',
       icon: 'setting',
       key: 'setting',
       children: [{
+        name: "统计图表",
+        key: '/common/stats',
+      },{
         name: "管理员",
         key: '/common/admin',
       }, {

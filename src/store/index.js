@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import menu from './module/menu'
+import user from './module/user'
+import websocket from './module/websocket'
 
 Vue.use(Vuex);
 
@@ -11,7 +13,7 @@ const mutations = {};
 const getters = {};
 
 const modules = {
-  menu
+  menu, user, websocket
 };
 
 const actions = {};

@@ -6,7 +6,7 @@
       <a-breadcrumb style="margin: 23px 55px;position: absolute;">
         <a-breadcrumb-item v-for="breadcrumb in this.$store.state.menu.breadcrumbs">{{breadcrumb}}</a-breadcrumb-item>
       </a-breadcrumb>
-      <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
+      <a-layout-content style="margin:24px 16px;padding:24px;background:#fff;minHeight:280px;overflow-y:auto;">
         <transition name="move" mode="out-in">
           <router-view></router-view>
         </transition>

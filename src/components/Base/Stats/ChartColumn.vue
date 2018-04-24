@@ -1,0 +1,41 @@
+<template>
+  <div style="margin-top: 20px;">
+    <a-card title="柱状图表" :bordered="false" :hoverable="true">
+      <v-chart :forceFit="true" :height="height" :data="data" :scale="scale">
+        <v-tooltip />
+        <v-axis />
+        <v-bar position="year*sales" />
+      </v-chart>
+    </a-card>
+
+  </div>
+</template>
+
+<script>
+  //柱状图表
+  const data = [
+    { year: '1951 年', sales: 38 },
+    { year: '1952 年', sales: 52 },
+    { year: '1956 年', sales: 61 },
+    { year: '1957 年', sales: 145 },
+    { year: '1958 年', sales: 48 },
+    { year: '1959 年', sales: 38 },
+    { year: '1960 年', sales: 38 },
+    { year: '1962 年', sales: 38 },
+  ];
+
+  const scale = [{
+    dataKey: 'sales',
+    tickInterval: 20,
+  }];
+
+  export default {
+    data() {
+      return {
+        data,
+        scale,
+        height: 400,
+      };
+    }
+  };
+</script>

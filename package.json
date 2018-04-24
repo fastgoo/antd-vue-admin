@@ -10,8 +10,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@antv/data-set": "^0.8.7",
     "axios": "^0.18.0",
     "normalize.css": "^8.0.0",
+    "qs": "^6.5.1",
+    "viser-vue": "^2.2.3",
     "vue": "^2.5.2",
     "vue-antd-ui": "^0.4.0",
     "vue-router": "^3.0.1",

@@ -23,21 +23,21 @@
               {{name.first}} {{name.last}}
             </template>
             <span slot="operate" slot-scope="text" class="table-operation">
-              <a href="#">Pause</a>
-              <a href="#">Stop</a>
-              <a-dropdown>
-                <a-menu slot="overlay">
-                  <a-menu-item>
-                    Action 1
-                  </a-menu-item>
-                  <a-menu-item>
-                    Action 2
-                  </a-menu-item>
-                </a-menu>
-                <a href="#">
-                  More <a-icon type="down"/>
-                </a>
-              </a-dropdown>
+              <a-tooltip placement="right" :mouseEnterDelay="1">
+                <template slot="title">
+                  <span>编辑</span>
+                </template>
+               <a-button type="primary" shape="circle" icon="edit"></a-button>
+              </a-tooltip>
+              <a-tooltip placement="right" :mouseEnterDelay="1">
+                <template slot="title">
+                  <span>设置</span>
+                </template>
+                <a-button type="dashed" shape="circle" icon="setting" style="margin-left: 10px;"></a-button>
+              </a-tooltip>
+              <a-popconfirm title="Are you sure？" okText="Yes" cancelText="No">
+                <a-button type="danger" shape="circle" icon="delete" style="margin-left: 10px;"></a-button>
+              </a-popconfirm>
             </span>
           </a-table>
         </div>
@@ -105,14 +105,15 @@
       fetch(params = {}) {
         console.log('params:', params);
         this.loading = true
-        this.$http.get('https://randomuser.me/api', {results: 10, ...params,}).then((data) => {
-          const pagination = {...this.pagination};
+        let that = this;
+        this.Get('https://randomuser.me/api', {results: 10, ...params,}, function () {
+          const pagination = {...that.pagination};
           // Read total count from server
           // pagination.total = data.totalCount;
           pagination.total = 200;
-          this.loading = false;
-          this.tabData = data.data.results;
-          this.pagination = pagination;
+          that.loading = false;
+          that.tabData = data.data.results;
+          that.pagination = pagination;
         });
       }
     }
